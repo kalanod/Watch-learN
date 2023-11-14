@@ -9,6 +9,7 @@ public class HelloResource {
     public String hello() {
         return "Hello, World!";
     }
+
     @POST
     @Path("/{name}")
     @Produces("text/plain")
