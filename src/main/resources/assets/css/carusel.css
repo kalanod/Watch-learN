@@ -1,0 +1,9 @@
+.carusel-cart{
+    display:inline-block;
+}
+.carousel-block{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #0a53be;
+    width: 1200px;
+}
