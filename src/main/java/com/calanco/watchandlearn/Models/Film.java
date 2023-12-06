@@ -10,4 +10,8 @@ public class Film implements Serializable {
     boolean isWatched;
     int season;
     int episod;
+
+    public Film(String title) {
+        this.title = title;
+    }
 }

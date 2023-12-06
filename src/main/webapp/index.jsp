@@ -1,3 +1,7 @@
+<%@ page import="com.calanco.watchandlearn.adapters.UserAdapter" %>
+<%@ page import="com.calanco.watchandlearn.adapters.FilmAdapter" %>
+<%@ page import="com.calanco.watchandlearn.Models.Film" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -97,7 +101,7 @@
             display: block !important;
         }
     </style>
-
+    <jsp:useBean id="User" class="com.calanco.watchandlearn.Models.User" scope="session"/>
 
 
 </head>
@@ -197,50 +201,50 @@
     </symbol>
 </svg>
 
-<main>
-    <header class="p-3 mb-3 border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                        <use xlink:href="#bootstrap"/>
-                    </svg>
+
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
+                <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+            </ul>
+
+
+            <div class="dropdown text-end" id="userBtn">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
-
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#" id="signOutBtn">Sign out</a></li>
                 </ul>
-
-
-                <div class="dropdown text-end" id="userBtn">
-                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#" id="signOutBtn">Sign out</a></li>
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpForm"
-                        id="signUpBtn">
-                    Sign-Up
-                </button>
-                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInForm" id="signInBtn">
-                    Sign-In
-                </button>
             </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpForm"
+                    id="signUpBtn">
+                Sign-Up
+            </button>
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInForm" id="signInBtn">
+                Sign-In
+            </button>
         </div>
-    </header>
-</main>
+    </div>
+</header>
+
 <div class="modal fade" aria-hidden="true" tabindex="-1" aria-labelledby="signUpFormTitle" role="dialog"
      id="signUpForm">
     <div class="modal-dialog" role="document">
@@ -277,74 +281,40 @@
 </div>
 <div id="carouselExampleIndicators" class="carousel slide">
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <%! ArrayList<Film> films = FilmAdapter.getFilms();%>
+
+        <% for (int i = 1; i * 4 < films.size(); i++) {%>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=i%>"
+                aria-label="Slide <%=i + 1%>"></button>
+        <%}%>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="carousel-block">
-                <div class="card carusel-cart" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <% for (int i = 0; i < films.size(); i++) {
+            if (i == 0){%>
+                <div class="carousel-item active">
+                    <div class="carousel-block">
+            <%}
+            else if (i % 4 == 0){%>
+                </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-block">
+            <%}%>
+                        <div class="card carusel-cart" style="width: 18rem;">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                                    the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+        <%}
+            if (films.size() != 0) { %>
                     </div>
                 </div>
-                <div class="card carusel-cart" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card carusel-cart" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
+                        <%}%>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
