@@ -11,8 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "helloServlet", value = "/main")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "homeServlet", value = "/main")
+public class HomeServlet extends HttpServlet {
     private String message;
 
     public void init() {

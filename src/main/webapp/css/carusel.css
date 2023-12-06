@@ -1,8 +1,45 @@
 .carusel-cart{
     display:inline-block;
+    width: 280px;
+    transition: transform 0.5s ease-in-out;
+    transform-origin: 0 0 0;
 }
 .carousel-block{
     margin-left: auto;
     margin-right: auto;
     width: 1200px;
+}
+.img-overlay-wrap {
+    position: relative;
+    display: inline-block; /* <= shrinks container to image size */
+    transition: transform 150ms ease-in-out;
+}
+
+.img-overlay-wrap img { /* <= optional, for responsiveness */
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.img-overlay-wrap-svg {
+    position: absolute;
+    top: 28%;
+    left: 38%;
+    width: 80px;
+    opacity: 0;
+    color: #FFFFff;
+    transition: 0.5s;
+}
+
+.img-overlay-wrap:hover {
+    transform: rotate( 15deg );
+}
+.carusel-cart:hover .img-overlay-wrap-svg{
+    opacity:1;
+    transition: 0.5s;
+}
+.carusel-cart:hover{
+}
+.card-text{
+    margin-top: 50%;
 }

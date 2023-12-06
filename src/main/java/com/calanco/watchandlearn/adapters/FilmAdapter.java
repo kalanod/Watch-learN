@@ -1,6 +1,7 @@
 package com.calanco.watchandlearn.adapters;
 
 import com.calanco.watchandlearn.Models.Film;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,4 +42,5 @@ public class FilmAdapter {
     public static int UpdateFilm(Film oldFilm, Film newFilm) {
         return 0;
     }
+
 }

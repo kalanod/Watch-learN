@@ -6,6 +6,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
+    <%!UserAdapter userAdapter = new UserAdapter();%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -218,6 +219,7 @@
                 <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
             </ul>
 
+            <% if (userAdapter.isAuthorized(request.getSession())){%>
 
             <div class="dropdown text-end" id="userBtn">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
@@ -234,6 +236,7 @@
                     <li><a class="dropdown-item" href="#" id="signOutBtn">Sign out</a></li>
                 </ul>
             </div>
+            <%}else {%>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpForm"
                     id="signUpBtn">
                 Sign-Up
@@ -241,10 +244,113 @@
             <button type="button" class="btn btn-link" data-toggle="modal" data-target="#signInForm" id="signInBtn">
                 Sign-In
             </button>
+            <%}%>
         </div>
     </div>
 </header>
+<H1>Рекомендации</H1>
+<br>
+<div id="carousel1" class="carousel slide">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carousel1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 
+        <% for (int i = 1; i * 4 < userAdapter.getRecomendatedFilms(request.getSession()).size(); i++) {%>
+        <button type="button" data-bs-target="#carousel1" data-bs-slide-to="<%=i%>"
+                aria-label="Slide <%=i + 1%>"></button>
+        <%}%>
+    </div>
+    <div class="carousel-inner">
+        <% for (int i = 0; i < userAdapter.getRecomendatedFilms(request.getSession()).size(); i++) {
+            if (i == 0){%>
+        <div class="carousel-item active">
+            <div class="carousel-block">
+                <%}
+                else if (i % 4 == 0){%>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="carousel-block">
+                <%}%>
+                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms(request.getSession()).get(i).getId()%>'>
+                    <div class="card carusel-cart text-bg-dark">
+                        <div class="img-overlay-wrap">
+                            <img src="<%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).icnSrc()%>" class="card-img" alt="...">
+                            <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
+                        </div>
+                        <div class="card-img-overlay">
+                            <p class="card-text"><%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).getTitle()%></p>
+                        </div>
+                    </div>
+                </a>
+                <%}
+                    if (userAdapter.getRecomendatedFilms(request.getSession()).size() != 0) { %>
+            </div>
+        </div>
+        <%}%>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel1"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel1"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<H1>Продолжить просмотр</H1>
+<br>
+<div id="carousel2" class="carousel slide">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carousel2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+
+        <% for (int i = 1; i * 4 <  userAdapter.getLastWatchedFilms(request.getSession()).size(); i++) {%>
+        <button type="button" data-bs-target="#carousel2" data-bs-slide-to="<%=i%>"
+                aria-label="Slide <%=i + 1%>"></button>
+        <%}%>
+    </div>
+    <div class="carousel-inner">
+        <% for (int i = 0; i < userAdapter.getLastWatchedFilms(request.getSession()).size(); i++) {
+            if (i == 0){%>
+        <div class="carousel-item active">
+            <div class="carousel-block">
+                <%}
+                else if (i % 4 == 0){%>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="carousel-block">
+                <%}%>
+                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms(request.getSession()).get(i).getId()%>'>
+                <div class="card carusel-cart text-bg-dark">
+                    <div class="img-overlay-wrap">
+                    <img src="<%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).icnSrc()%>" class="card-img" alt="...">
+                    <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
+                    </div>
+                    <div class="card-img-overlay">
+                        <p class="card-text"><%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).getTitle()%></p>
+                    </div>
+                </div>
+                </a>
+                <%}
+                    if (userAdapter.getLastWatchedFilms(request.getSession()).size() != 0) { %>
+            </div>
+        </div>
+        <%}%>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel2"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel2"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 <div class="modal fade" aria-hidden="true" tabindex="-1" aria-labelledby="signUpFormTitle" role="dialog"
      id="signUpForm">
     <div class="modal-dialog" role="document">
@@ -258,13 +364,13 @@
             <div class="modal-body p-5 pt-0">
                 <form class="">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control rounded-3" id="SignUpName"
-                               placeholder="name@example.com">
+                        <input type="text" class="form-control rounded-3" id="SignUpName"
+                               placeholder="bob">
                         <label for="floatingInput">Name</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control rounded-3" id="SignUpEmail"
-                               placeholder="name@example.com">
+                               placeholder="name@calanco.com">
                         <label for="floatingInput">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -278,54 +384,6 @@
             </div>
         </div>
     </div>
-</div>
-<div id="carouselExampleIndicators" class="carousel slide">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <%! ArrayList<Film> films = FilmAdapter.getFilms();%>
-
-        <% for (int i = 1; i * 4 < films.size(); i++) {%>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=i%>"
-                aria-label="Slide <%=i + 1%>"></button>
-        <%}%>
-    </div>
-    <div class="carousel-inner">
-        <% for (int i = 0; i < films.size(); i++) {
-            if (i == 0){%>
-                <div class="carousel-item active">
-                    <div class="carousel-block">
-            <%}
-            else if (i % 4 == 0){%>
-                </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-block">
-            <%}%>
-                        <div class="card carusel-cart" style="width: 18rem;">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-        <%}
-            if (films.size() != 0) { %>
-                    </div>
-                </div>
-                        <%}%>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
 
 <div class="modal fade" aria-hidden="true" tabindex="-1" aria-labelledby="signInFormTitle" role="dialog"
@@ -356,6 +414,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
