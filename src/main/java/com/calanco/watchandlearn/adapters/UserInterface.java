@@ -9,5 +9,5 @@ public interface UserInterface {
 
     int updateUser(User oldUser, User newUser);
 
-    boolean isCorrectData(User user);
+    int isCorrectData(User user);
 }

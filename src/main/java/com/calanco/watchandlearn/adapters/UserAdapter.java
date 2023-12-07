@@ -5,7 +5,6 @@ import com.calanco.watchandlearn.Models.User;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class UserAdapter implements UserInterface {
     @Override
@@ -15,7 +14,7 @@ public class UserAdapter implements UserInterface {
 
     @Override
     public int addNewUser(User user) {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -25,10 +24,10 @@ public class UserAdapter implements UserInterface {
 
     /**
      * Проверка на правильность пароля и логина, есть ли данны в БД
-     **/
+     */
     @Override
-    public boolean isCorrectData(User user) {
-        return false;
+    public int isCorrectData(User user) {
+        return 0;
     }
 
     public boolean isAuthorized(HttpSession session) {
@@ -41,5 +40,13 @@ public class UserAdapter implements UserInterface {
 
     public ArrayList<Film> getLastWatchedFilms(HttpSession session) {
         return FilmAdapter.getFilms();
+    }
+
+    /**
+     * @param user с заполненными email или id
+     * @return user с заполненными ВСЕМИ полями, провеку на корректность проводить не обязательно
+     */
+    public User fillUser(User user) {
+        return user;
     }
 }

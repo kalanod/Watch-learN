@@ -102,7 +102,9 @@
             display: block !important;
         }
     </style>
-    <jsp:useBean id="User" class="com.calanco.watchandlearn.Models.User" scope="session"/>
+    <jsp:useBean id="User" class="com.calanco.watchandlearn.Models.User" scope="session">
+        <jsp:setProperty name="User" property="name" value="name"/>
+    </jsp:useBean>
 
 
 </head>
@@ -364,21 +366,23 @@
             <div class="modal-body p-5 pt-0">
                 <form class="">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3" id="SignUpName"
+                        <input type="text" class="form-control rounded-3" id="signUpName"
                                placeholder="bob">
-                        <label for="floatingInput">Name</label>
+                        <label for="signUpName">Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control rounded-3" id="SignUpEmail"
+                        <input type="email" class="form-control rounded-3" id="signUpEmail"
                                placeholder="name@calanco.com">
-                        <label for="floatingInput">Email address</label>
+                        <label for="signUpEmail">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3" id="SignUpPassword"
+                        <input type="password" class="form-control rounded-3" id="signUpPassword"
                                placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+                        <label for="signUpPassword">Password</label>
                     </div>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+                    <label for="exampleColorInput" class="form-label">Color picker</label>
+                    <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+                    <button id="signUpFormBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button">Sign up</button>
                     <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
                 </form>
             </div>
@@ -391,7 +395,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2" id="signInFormTitle">Sign up for free</h1>
+                <h1 class="fw-bold mb-0 fs-2" id="signInFormTitle">Sign in</h1>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
@@ -399,16 +403,16 @@
             <div class="modal-body p-5 pt-0">
                 <form class="">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control rounded-3" id="floatingInput"
+                        <input type="email" class="form-control rounded-3" id="signInEmail"
                                placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                        <label for="signInEmail">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3" id="floatingPassword"
+                        <input type="password" class="form-control rounded-3" id="signInPassword"
                                placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+                        <label for="signInPassword">Password</label>
                     </div>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign in</button>
+                    <button id="signInFormBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button">Sign in</button>
                 </form>
             </div>
         </div>
@@ -426,6 +430,7 @@
         crossorigin="anonymous"></script>
 
 <script>
+    <jsp:include page="js/jquery-3.7.1.min.js"/>
     <jsp:include page="js/bootstrap.bundle.min.js"/>
     <jsp:include page="js/color-modes.js"/>
     <jsp:include page="js/index.js"/>
