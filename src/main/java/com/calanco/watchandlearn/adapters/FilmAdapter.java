@@ -1,16 +1,18 @@
 package com.calanco.watchandlearn.adapters;
 
 import com.calanco.watchandlearn.Models.Film;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class FilmAdapter {
 
 
     public static ArrayList<Film> getFilms() {
-        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
     }
 
 
@@ -43,4 +45,18 @@ public class FilmAdapter {
         return 0;
     }
 
+    public ArrayList<Film> getFilms(String type, int fromElem, int countElems) {
+        System.out.println(fromElem);
+        System.out.println(countElems);
+        ArrayList<Film> list = new ArrayList<>();
+        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+            list.add(FilmAdapter.getFilms().get(i));
+            System.out.println(i);
+        }
+        return list;
+    }
+
+    public int getFilmsCount() {
+        return getFilms().size();
+    }
 }

@@ -226,8 +226,8 @@
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/my">Профиль</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/tasks?type=onLearn">На изучении ${sessionScope.User.tasksOnWay}</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}$/tasks?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/films?type=onLearn">На изучении ${sessionScope.User.tasksOnWay}</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/films?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a></li>
 
                     <li>
                         <hr class="dropdown-divider">
