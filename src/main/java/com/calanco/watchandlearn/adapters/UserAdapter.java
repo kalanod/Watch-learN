@@ -30,15 +30,20 @@ public class UserAdapter implements UserInterface {
         return 0;
     }
 
-    public boolean isAuthorized(HttpSession session) {
-        return false;
+    public boolean isAuthorized(User user) {
+        if (user == null){
+            System.out.println("null");
+            return false;
+        }
+        System.out.println(user.getName());
+        return true;
     }
 
-    public ArrayList<Film> getRecomendatedFilms(HttpSession session) {
+    public ArrayList<Film> getRecomendatedFilms(User user) {
         return FilmAdapter.getFilms();
     }
 
-    public ArrayList<Film> getLastWatchedFilms(HttpSession session) {
+    public ArrayList<Film> getLastWatchedFilms(User user) {
         return FilmAdapter.getFilms();
     }
 

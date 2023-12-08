@@ -2,6 +2,7 @@
 <%@ page import="com.calanco.watchandlearn.adapters.FilmAdapter" %>
 <%@ page import="com.calanco.watchandlearn.Models.Film" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.calanco.watchandlearn.Models.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -102,9 +103,6 @@
             display: block !important;
         }
     </style>
-    <jsp:useBean id="User" class="com.calanco.watchandlearn.Models.User" scope="session">
-        <jsp:setProperty name="User" property="name" value="name"/>
-    </jsp:useBean>
 
 
 </head>
@@ -221,21 +219,22 @@
                 <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
             </ul>
 
-            <% if (userAdapter.isAuthorized(request.getSession())){%>
+            <% if (userAdapter.isAuthorized((User) request.getSession().getAttribute("User"))){%>
 
             <div class="dropdown text-end" id="userBtn">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img src="${sessionScope.User.imgSrc}" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/my">Профиль</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/tasks?type=onLearn">На изучении ${sessionScope.User.tasksOnWay}</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}$/tasks?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a></li>
+
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#" id="signOutBtn">Sign out</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/signOut" id="signOutBtn">Sign out</a></li>
                 </ul>
             </div>
             <%}else {%>
@@ -256,13 +255,13 @@
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carousel1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 
-        <% for (int i = 1; i * 4 < userAdapter.getRecomendatedFilms(request.getSession()).size(); i++) {%>
+        <% for (int i = 1; i * 4 < userAdapter.getRecomendatedFilms((User) request.getSession().getAttribute("User")).size(); i++) {%>
         <button type="button" data-bs-target="#carousel1" data-bs-slide-to="<%=i%>"
                 aria-label="Slide <%=i + 1%>"></button>
         <%}%>
     </div>
     <div class="carousel-inner">
-        <% for (int i = 0; i < userAdapter.getRecomendatedFilms(request.getSession()).size(); i++) {
+        <% for (int i = 0; i < userAdapter.getRecomendatedFilms((User) request.getSession().getAttribute("User")).size(); i++) {
             if (i == 0){%>
         <div class="carousel-item active">
             <div class="carousel-block">
@@ -273,19 +272,19 @@
         <div class="carousel-item">
             <div class="carousel-block">
                 <%}%>
-                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms(request.getSession()).get(i).getId()%>'>
+                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getId()%>'>
                     <div class="card carusel-cart text-bg-dark">
                         <div class="img-overlay-wrap">
-                            <img src="<%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).icnSrc()%>" class="card-img" alt="...">
+                            <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).icnSrc()%>" class="card-img" alt="...">
                             <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
                         </div>
                         <div class="card-img-overlay">
-                            <p class="card-text"><%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).getTitle()%></p>
+                            <p class="card-text"><%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getTitle()%></p>
                         </div>
                     </div>
                 </a>
                 <%}
-                    if (userAdapter.getRecomendatedFilms(request.getSession()).size() != 0) { %>
+                    if (userAdapter.getRecomendatedFilms((User) request.getSession().getAttribute("User")).size() != 0) { %>
             </div>
         </div>
         <%}%>
@@ -308,13 +307,13 @@
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carousel2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 
-        <% for (int i = 1; i * 4 <  userAdapter.getLastWatchedFilms(request.getSession()).size(); i++) {%>
+        <% for (int i = 1; i * 4 <  userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).size(); i++) {%>
         <button type="button" data-bs-target="#carousel2" data-bs-slide-to="<%=i%>"
                 aria-label="Slide <%=i + 1%>"></button>
         <%}%>
     </div>
     <div class="carousel-inner">
-        <% for (int i = 0; i < userAdapter.getLastWatchedFilms(request.getSession()).size(); i++) {
+        <% for (int i = 0; i < userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).size(); i++) {
             if (i == 0){%>
         <div class="carousel-item active">
             <div class="carousel-block">
@@ -325,19 +324,19 @@
         <div class="carousel-item">
             <div class="carousel-block">
                 <%}%>
-                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms(request.getSession()).get(i).getId()%>'>
+                <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getId()%>'>
                 <div class="card carusel-cart text-bg-dark">
                     <div class="img-overlay-wrap">
-                    <img src="<%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).icnSrc()%>" class="card-img" alt="...">
+                    <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).icnSrc()%>" class="card-img" alt="...">
                     <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
                     </div>
                     <div class="card-img-overlay">
-                        <p class="card-text"><%=userAdapter.getLastWatchedFilms(request.getSession()).get(i).getTitle()%></p>
+                        <p class="card-text"><%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getTitle()%></p>
                     </div>
                 </div>
                 </a>
                 <%}
-                    if (userAdapter.getLastWatchedFilms(request.getSession()).size() != 0) { %>
+                    if (userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).size() != 0) { %>
             </div>
         </div>
         <%}%>

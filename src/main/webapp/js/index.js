@@ -1,7 +1,7 @@
 $("#signUpFormBtn").click(function () {
     var saveData = $.ajax({
         type: 'POST',
-        url: "/Gradle___com_calanco___WatchAndLearn_1_0_SNAPSHOT_war/registration",
+        url: document.baseURI + "/registration",
         data: {"name": $("#signUpName").val(), "email": $("#signUpEmail").val(), "password": $("#signUpPassword").val()},
         dataType: "text",
         success: function (resultData) {
@@ -15,14 +15,14 @@ $("#signUpFormBtn").click(function () {
             }
         }
     });
-    saveData.error(function () {
-        alert(resultData);
-    });
+    // saveData.error(function () {
+    //     alert(resultData);
+    // });
 })
 $("#signInFormBtn").click(function () {
     var saveData = $.ajax({
         type: 'POST',
-        url: "/Gradle___com_calanco___WatchAndLearn_1_0_SNAPSHOT_war/login",
+        url: document.baseURI + "/login",
         data: {"email": $("#signInEmail").val(), "password": $("#signInPassword").val()},
         dataType: "text",
         success: function (resultData) {
@@ -37,9 +37,9 @@ $("#signInFormBtn").click(function () {
             }
         }
     });
-    saveData.error(function () {
-        alert("Something went wrong");
-    });
+    // saveData.error(function () {
+    //     alert("Something went wrong");
+    // });
 })
 
 function showSignInForm() {
