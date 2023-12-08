@@ -1,6 +1,7 @@
 package com.calanco.watchandlearn.adapters;
 
 import com.calanco.watchandlearn.Models.Film;
+import com.calanco.watchandlearn.Models.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,8 +47,20 @@ public class FilmAdapter {
     }
 
     public ArrayList<Film> getFilms(String type, int fromElem, int countElems) {
-        System.out.println(fromElem);
-        System.out.println(countElems);
+        /**
+         * types: [films, serials]
+         */
+        ArrayList<Film> list = new ArrayList<>();
+        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+            list.add(FilmAdapter.getFilms().get(i));
+            System.out.println(i);
+        }
+        return list;
+    }
+    public ArrayList<Film> getFilms(String type, int fromElem, int countElems, User user) {
+        /**
+         * types: [films, serials, watched, recomendation, inProcess] FOR user
+         */
         ArrayList<Film> list = new ArrayList<>();
         for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
             list.add(FilmAdapter.getFilms().get(i));
