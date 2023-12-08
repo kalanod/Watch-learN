@@ -14,32 +14,32 @@ public class FilmAdapter {
     }
 
 
-    public static ArrayList<Film> getFilmsByGenre() {
+    public ArrayList<Film> getFilmsByGenre() {
         return null;
     }
 
 
-    public static ArrayList<Film> getFilmsWatched() {
+    public ArrayList<Film> getFilmsWatched() {
         return null;
     }
 
 
-    public static Film getFilmById(String id) {
+    public Film getFilmById(String id) {
         return null;
     }
 
 
-    public static Film getFilmByTitle(String id) {
+    public Film getFilmByTitle(String id) {
         return null;
     }
 
 
-    public static int addFilm(Film film) {
+    public int addFilm(Film film) {
         return 0;
     }
 
 
-    public static int UpdateFilm(Film oldFilm, Film newFilm) {
+    public int UpdateFilm(Film oldFilm, Film newFilm) {
         return 0;
     }
 

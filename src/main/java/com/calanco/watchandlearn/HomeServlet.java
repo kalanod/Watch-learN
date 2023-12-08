@@ -1,5 +1,7 @@
 package com.calanco.watchandlearn;
 
+import com.calanco.watchandlearn.adapters.FileAdapter;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,19 +21,10 @@ public class HomeServlet extends HttpServlet {
         message = "Hello World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        HttpSession session = request.getSession();
-
-        // Hello
-        PrintWriter out = response.getWriter();
-        String a = "";
-        try {
-            a = FileUtils.readFileToString((new File("../webapps/Gradle___com_calanco___WatchAndLearn_1_0_SNAPSHOT_war/WEB-INF/classes/templates/index.jsp")));
-        } catch (IOException ioException) {
-            a = "server error? cant open index.html, ok??";
-        }
-        out.println(a);
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        resp.setContentType("text/html");
+        HttpSession session = req.getSession();
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     public void destroy() {
