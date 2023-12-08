@@ -135,7 +135,7 @@
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+            <a href="${pageContext.request.contextPath}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
                 <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
                     <use xlink:href="${pageContext.request.contextPath}/"/>
                 </svg>
@@ -162,7 +162,7 @@
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/films?type=onLearn">На
                         изучении ${sessionScope.User.tasksOnWay}</a></li>
                     <li><a class="dropdown-item"
-                           href="${pageContext.request.contextPath}$/films?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a>
+                           href="${pageContext.request.contextPath}/films?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a>
                     </li>
 
                     <li>
