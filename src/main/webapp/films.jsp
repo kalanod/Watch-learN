@@ -10,7 +10,7 @@
 <%@ page import="com.calanco.watchandlearn.adapters.FilmAdapter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.calanco.watchandlearn.Models.Film" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
     <%!UserAdapter userAdapter = new UserAdapter();%>
@@ -28,6 +28,26 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
+<%
+    String typ;
+    switch (request.getParameter("type")) {
+        case "films":
+            typ = "Фильмы";
+            break;
+        case "serials":
+            typ = "Сериалы";
+            break;
+        case "comleted":
+            typ = "Просмотрено";
+            break;
+        case "onLearn":
+            typ = "Смотрю";
+            break;
+        default:
+            typ = "Список";
+    }%>
+<H1 style="margin-left: 150px"><%=typ%></H1>
+<hr class="my-4">
 <% int pageN;
     int itemsOnPage = 15;
     if (request.getParameter("page") == null) {
@@ -45,17 +65,19 @@
          i < films.size();
          i++) {
 %>
-<div class="card film-card text-bg-dark">
-    <div class="img-overlay-wrap">
-        <img src="<%=films.get(i).icnSrc()%>"
-             class="card-img" alt="...">
-        <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
+<a href="<%=request.getContextPath()+"/watch?id=" + films.get(i).getId()%>" style="text-decoration: 0">
+    <div class="film-card">
+        <div class="img-overlay-wrap" style="width: 18rem;height: 9rem;">
+            <img src="<%=films.get(i).icnSrc()%>" class="card-img" style="width: 100%;height: 100%;"
+                 alt="...">
+            <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
+        </div>
+        <div class="t" style="display: inline-block">
+            <p class="t"><%=films.get(i).getTitle()%>
+            </p>
+        </div>
     </div>
-    <div class="card-img-overlay">
-        <p class="card-text"><%=films.get(i).getTitle()%>
-        </p>
-    </div>
-</div>
+</a>
 <%}%>
 <nav aria-label="Page navigation example">
     <ul class="pagination  justify-content-center">
@@ -68,8 +90,8 @@
         </li>
         <%
             }
-            for (i = Math.max(0, pageN*itemsOnPage-5*itemsOnPage) ;
-                 i < filmAdapter.getFilmsCount() && i < 9*itemsOnPage + Math.max(0, pageN*itemsOnPage-5*itemsOnPage);
+            for (i = Math.max(0, pageN * itemsOnPage - 5 * itemsOnPage);
+                 i < filmAdapter.getFilmsCount() && i < 9 * itemsOnPage + Math.max(0, pageN * itemsOnPage - 5 * itemsOnPage);
                  i += itemsOnPage) {
                 if (i / itemsOnPage != pageN) {
         %>
