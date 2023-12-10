@@ -68,7 +68,7 @@
 <a href="<%=request.getContextPath()+"/watch?id=" + films.get(i).getId()%>" style="text-decoration: 0">
     <div class="film-card">
         <div class="img-overlay-wrap" style="width: 18rem;height: 9rem;">
-            <img src="<%=films.get(i).icnSrc()%>" class="card-img" style="width: 100%;height: 100%;"
+            <img src="<%=films.get(i).getIcnSrc()%>" class="card-img" style="width: 100%;height: 100%;"
                  alt="...">
             <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
         </div>

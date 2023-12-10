@@ -136,13 +136,12 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="${pageContext.request.contextPath}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                    <use xlink:href="${pageContext.request.contextPath}/"/>
-                </svg>
+                <img src="logo/logo.svg" class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                </img>
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="${pageContext.request.contextPath}/films?type=films" class="nav-link px-2 link-secondary">Фильмы</a>
+                <li><a href="${pageContext.request.contextPath}/films?type=films" class="nav-link px-2 link-body-emphasis">Фильмы</a>
                 </li>
                 <li><a href="${pageContext.request.contextPath}/films?type=serials"
                        class="nav-link px-2 link-body-emphasis">Сериалы</a></li>

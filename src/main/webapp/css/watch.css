@@ -1,20 +1,21 @@
-#videoBlock{
-    width: 1200px;
-    height: 600px;
+.videoBlock{
+    width: 1000px;
+    height: 500px;
     max-width: 70%;
-    position: relative;
     display: inline-block;
-    background-color: #0a53be;
+    vertical-align: top;
 }
 #controlsBlock{
     width: 25%;
-    height: 600px;
-    position: relative;
+    height: 540px;
     display: inline-block;
-    background-color: #0f5132;
+    vertical-align: top;
 }
 #progressBlock{
     width: 100%;
     height: 40px;
-    background-color: #510f27;
+}
+#toTask-btn{
+    vertical-align: bottom;
+    width: 100%;
 }

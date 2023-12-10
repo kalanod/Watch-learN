@@ -28,11 +28,18 @@ public class FilmAdapter {
 
 
     public Film getFilmById(String id) {
-        return null;
+        return new Film("a");
+    }
+    public ArrayList<Film> getAllEpisodesById(String id) {
+        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
     }
 
-
-    public Film getFilmByTitle(String id) {
+    public String getFilmUrlById(String id) {
+        return "a.mp4";
+    }
+    public Film getFilmByTitle(String title) {
         return null;
     }
 

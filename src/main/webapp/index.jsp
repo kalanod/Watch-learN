@@ -132,7 +132,7 @@
                 <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getId()%>'>
                     <div class="card carusel-cart text-bg-dark">
                         <div class="img-overlay-wrap">
-                            <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).icnSrc()%>" class="card-img" alt="...">
+                            <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getIcnSrc()%>" class="card-img" alt="...">
                             <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
                         </div>
                         <div class="card-img-overlay">
@@ -184,7 +184,7 @@
                 <a href='<%=request.getContextPath() + "/watch?id=" + userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getId()%>'>
                 <div class="card carusel-cart text-bg-dark">
                     <div class="img-overlay-wrap">
-                    <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).icnSrc()%>" class="card-img" alt="...">
+                    <img src="<%=userAdapter.getLastWatchedFilms((User) request.getSession().getAttribute("User")).get(i).getIcnSrc()%>" class="card-img" alt="...">
                     <img class="img-overlay-wrap-svg" src='logo/play.svg' alt="..."/>
                     </div>
                     <div class="card-img-overlay">

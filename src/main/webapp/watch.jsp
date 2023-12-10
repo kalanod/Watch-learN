@@ -1,6 +1,8 @@
 <%@ page import="com.calanco.watchandlearn.adapters.UserAdapter" %>
 <%@ page import="com.calanco.watchandlearn.adapters.FilmAdapter" %>
-<%@ page import="com.calanco.watchandlearn.Models.User" %><%--
+<%@ page import="com.calanco.watchandlearn.Models.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.calanco.watchandlearn.Models.Film" %><%--
   Created by IntelliJ IDEA.
   User: yaidf
   Date: 08.12.2023
@@ -17,7 +19,8 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.118.2">
-    <title><%=filmAdapter.getFilmById(request.getParameter("id"))%></title>
+    <title><%=filmAdapter.getFilmById(request.getParameter("id"))%>
+    </title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -34,13 +37,31 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<div id="videoBlock">
+<h2></h2>
+<div class="videoBlock">
     <div id="progressBlock">
-
     </div>
+    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet">
+    <video id="my-video" class="video-js" controls style="max-height: 100%; max-width: 100%"></video>
+    <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+    <script>
+        var player = videojs('my-video');
+        player.src("<%=filmAdapter.getFilmUrlById(request.getParameter("id"))%>");
+    </script>
+    <h2><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%> -<br> <%=filmAdapter.getFilmById(request.getParameter("id")).getEpisodeTitle()%></h2>
 </div>
 <div id="controlsBlock">
-
+    <h3>s<%=filmAdapter.getFilmById(request.getParameter("id")).getSeason()%> ep<%=filmAdapter.getFilmById(request.getParameter("id")).getEpisode()%></h3>
+    <div class="list-group" style="overflow-y:scroll; height:400px;">
+        <%ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
+        for (int i = 0; i < episodes.size(); i++){
+            if (episodes.get(i).getId().equals(request.getParameter("id"))){%>
+                <a class="list-group-item list-group-item-action active" aria-current="true" aria-disabled="true">s<%=episodes.get(i).getSeason()%> ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%></a>
+        <%}else {%>
+                <a href="#" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%> ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%></a>
+        <%}}%>
+    </div>
+    <button type="button" class="btn btn-outline-primary" id="toTask-btn">Перейти к заданию</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
