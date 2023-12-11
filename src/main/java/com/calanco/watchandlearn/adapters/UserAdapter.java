@@ -6,6 +6,13 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
 public class UserAdapter implements UserInterface {
     @Override
     public User getUserById(String id) {
