@@ -12,17 +12,14 @@ public class Film implements Serializable {
     int episodeTitle;
     boolean isWatched;
 
-    public Film(String title) {
+    public Film(String title, String icnSrc) {
         this.title = title;
-        icnSrc = "https://web-zoopark.ru/wp-content/uploads/2018/07/1-228.jpg";
+        this.icnSrc = icnSrc;
         id = 0;
     }
 
     public Object getTitle() {
         return title;
-    }
-    public Object icnSrc() {
-        return icnSrc;
     }
 
     public Object getId() {

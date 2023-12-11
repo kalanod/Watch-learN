@@ -3,6 +3,7 @@ package com.calanco.watchandlearn.Models;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    int id;
     String name;
     String email;
     String password;
@@ -24,7 +25,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

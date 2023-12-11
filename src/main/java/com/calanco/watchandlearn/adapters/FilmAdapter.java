@@ -25,7 +25,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -42,8 +42,8 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE genre = " + genre + ";");
             ArrayList<Film> arrFilms = new ArrayList<>();
-            while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+            while (rs.next()) {
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -54,10 +54,9 @@ public class FilmAdapter {
     }
 
 
-    public static ArrayList<Film> getFilmsWatched() {
+    public ArrayList<Film> getFilmsWatched() {
         return null;
     }
-
 
     public static Film getFilmById(int id) {
         try (Connection connection = DatabaseConnector.connect()) {
@@ -65,7 +64,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE id = " + id + ";");
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 return film;
             }
             return null;
@@ -82,7 +81,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE title = " + title + ";");
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 return film;
             }
             return null;
@@ -92,13 +91,38 @@ public class FilmAdapter {
         }
     }
 
-
+    /*
     public static int addFilm(Film film) {
-        return 0;
+=======
+    public Film getFilmById(String id) {
+        return new Film("a");
+    }
+    public ArrayList<Film> getAllEpisodesById(String id) {
+        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+    }
+
+    public String getFilmUrlById(String id) {
+        return "a.mp4";
+    }
+    public Film getFilmByTitle(String title) {
+        return null;
     }
 
 
-    public static int UpdateFilm(Film oldFilm, Film newFilm) {
+    public int addFilm(Film film) {
+>>>>>>> master
+        return 0;
+    }
+
+     */
+
+    public int addFilm(Film film) {
+        return 0;
+    }
+
+    public int UpdateFilm(Film oldFilm, Film newFilm) {
         return 0;
     }
 
