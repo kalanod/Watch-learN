@@ -1,9 +1,10 @@
 .videoBlock{
-    width: 1000px;
+    width: 900px;
     height: 500px;
-    max-width: 70%;
+    max-width: 50%;
     display: inline-block;
     vertical-align: top;
+    margin-left: 100px;
 }
 #controlsBlock{
     width: 25%;
@@ -18,4 +19,11 @@
 #toTask-btn{
     vertical-align: bottom;
     width: 100%;
+}
+#toVideo-btn{
+    vertical-align: bottom;
+    width: 100%;
+}
+#task{
+    margin-left: 100px;
 }

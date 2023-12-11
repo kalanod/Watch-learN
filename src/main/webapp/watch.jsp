@@ -3,7 +3,8 @@
 <%@ page import="com.calanco.watchandlearn.Models.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.calanco.watchandlearn.Models.Film" %>
-<%@ page import="com.calanco.watchandlearn.Models.Task" %><%--
+<%@ page import="com.calanco.watchandlearn.Models.Task" %>
+<%@ page import="com.calanco.watchandlearn.Models.AnswerOpinion" %><%--
   Created by IntelliJ IDEA.
   User: yaidf
   Date: 08.12.2023
@@ -43,8 +44,9 @@
 <div class="videoBlock">
     <div id="progressBlock">
     </div>
+    <h3 id="task-title"></h3>
     <video id="my-video" class="video-js" controls style="max-height: 100%; max-width: 100%"></video>
-    <ul class="list-group" id="task">
+    <ul class="list-group taskE" id="task">
         <li class="list-group-item">
             <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio" checked>
             <label class="form-check-label" for="firstRadio">First radio</label>
@@ -60,19 +62,35 @@
     </ul>
 </div>
 <div id="controlsBlock">
-    <h3>s<%=filmAdapter.getFilmById(request.getParameter("id")).getSeason()%> ep<%=filmAdapter.getFilmById(request.getParameter("id")).getEpisode()%></h3>
+    <h3>s<%=filmAdapter.getFilmById(request.getParameter("id")).getSeason()%>
+        ep<%=filmAdapter.getFilmById(request.getParameter("id")).getEpisode()%>
+    </h3>
     <div class="list-group" style="overflow-y:scroll; height:400px;">
-        <%ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
-        for (int i = 0; i < episodes.size(); i++){
-            if (episodes.get(i).getId().equals(request.getParameter("id"))){%>
-                <a class="list-group-item list-group-item-action active" aria-current="true" aria-disabled="true">s<%=episodes.get(i).getSeason()%> ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%></a>
-        <%}else {%>
-                <a href="#" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%> ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%></a>
-        <%}}%>
+        <%
+            ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
+            for (int i = 0; i < episodes.size(); i++) {
+                if (episodes.get(i).getId().equals(request.getParameter("id"))) {
+        %>
+        <a class="list-group-item list-group-item-action active" aria-current="true"
+           aria-disabled="true">s<%=episodes.get(i).getSeason()%>
+            ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
+        </a>
+        <%} else {%>
+        <a href="#" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%>
+            ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
+        </a>
+        <%
+                }
+            }
+        %>
     </div>
-    <button type="button" class="btn btn-outline-primary" id="toTask-btn">Перейти к заданию</button>
+    <button type="button" class="btn btn-outline-primary" id="toTask-btn">К заданию</button>
+    <button type="button" class="btn btn-outline-primary" id="toVideo-btn">Далее</button>
+
 </div>
-<h2><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%> -<br> <%=filmAdapter.getFilmById(request.getParameter("id")).getEpisodeTitle()%></h2>
+<h2><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%>
+    -<br> <%=filmAdapter.getFilmById(request.getParameter("id")).getEpisodeTitle()%>
+</h2>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -86,25 +104,85 @@
         crossorigin="anonymous"></script>
 <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 <script>
+    var video = document.getElementById("my-video");
     var player = videojs('my-video');
+    var tasks = [];
     player.src("<%=filmAdapter.getFilmUrlById(request.getParameter("id"))%>");
+    $("#task").hide();
+    var taskE = $(".taskE")
+    var toVideoBtn = $("#toVideo-btn");
+    toVideoBtn.hide();
+    var taskTitle = $("#task-title");
+    taskTitle.hide();
+    var start = 0;
+    <%for (int i = 0; i<tasks.size(); i++){%>
+    tasks.push(<%=tasks.get(i)%>)
+    <%}%>
+    var currentTask = tasks.length > 0 ? 0 : -1;
+    var currentTime;
+    tasks.push({"posStart":  99999999999})
+    player.on('timeupdate', function () {
+        currentTime = player.currentTime()
+        currentTask=0
+        console.log(currentTask)
+        for (var i = 0; i < tasks.length - 1; i++) {
+            if (currentTime +1 >= tasks[i]["posStart"] && currentTime +1 < tasks[i + 1]["posStart"]) {
+                currentTask = i;
+                $("#toTask-btn").show()
+                if (tasks[i]["isFinished"] === 0) {
+                    video.pause();
+                    showTask(i);
+                }
+            } else if (currentTime >= tasks[i]["posStart"] && currentTime < tasks[i + 1]["posStart"]) {
+                currentTask = i + 1;
+            }
+
+        }
+        if (currentTime > tasks[tasks.length - 2]["posStart"]) {
+            $("#toTask-btn").hide()
+        }
+    });
+    $("#toTask-btn").click(function () {
+        video.pause();
+        showTask(currentTask)
+    });
+    toVideoBtn.click(function () {
+        console.log(currentTask)
+        tasks[currentTask]["isFinished"] = 1;
+        taskE.hide();
+        $("#my-video").show();
+        $("#task-title").hide();
+        toVideoBtn.hide();
+        $("#toTask-btn").show();
+    });
 
     function showTask(i) {
-        console.log(i)
+        console.log("task number " + i);
+        taskTitle.show();
+        taskE.show(100);
+        $("#my-video").hide();
+        taskE.empty();
+        taskTitle.empty();
+        document.getElementById("task-title").innerHTML += tasks[i]["title"];
+        for (var ans of tasks[i]["answers"]) {
+            if (ans["isMultipleAnswers"] === 1) {
+                document.getElementById("task").innerHTML +=
+                    '<li class="list-group-item">' +
+                    '<input class="form-check-input me-1" type="checkbox" value="" id="' + ans["title"] +'">' +
+                    '<label class="form-check-label stretched-link" for="' + ans["title"] +'">' + ans["title"] +
+                    '</label></li>';
+            } else {
+                document.getElementById("task").innerHTML +=
+                    '<li class="list-group-item">' +
+                    '<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="' + ans["title"] +'" checked>' +
+                    '<label class="form-check-label stretched-link" for="' + ans["title"] +'">' + ans["title"] +
+                    '</label></li>';
+            }
+        }
+        toVideoBtn.show();
+        $("#toTask-btn").hide();
     }
 
-    player.on('timeupdate', function() {
-        var currentTime = player.currentTime();
-        <%tasks.add(new Task(8));
-        for (int i = 0; i<tasks.size() - 1; i++){%>
-        if ((<%=i%> === <%=tasks.size() - 1%> && currentTime >= <%=tasks.get(i).getPosStart()%> && !<%=tasks.get(i).isFinished()%>) ||
-        (<%=i%> < <%=tasks.size() - 1%> && currentTime >= <%=tasks.get(i).getPosStart()%> &&
-            currentTime < <%=tasks.get(i + 1).getPosStart()%> && !<%=tasks.get(i).isFinished()%>)){
-            showTask(<%=i%>)
-                player.pause()
-        }
-        <%}%>
-    });
     <jsp:include page="js/jquery-3.7.1.min.js"/>
     <jsp:include page="js/bootstrap.bundle.min.js"/>
     <jsp:include page="js/color-modes.js"/>
@@ -112,3 +190,4 @@
 </script>
 </body>
 </html>
+

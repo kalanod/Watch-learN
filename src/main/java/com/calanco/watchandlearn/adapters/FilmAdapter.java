@@ -1,5 +1,6 @@
 package com.calanco.watchandlearn.adapters;
 
+import com.calanco.watchandlearn.Models.AnswerOpinion;
 import com.calanco.watchandlearn.Models.Film;
 import com.calanco.watchandlearn.Models.Task;
 import com.calanco.watchandlearn.Models.User;
@@ -82,6 +83,12 @@ public class FilmAdapter {
     }
 
     public ArrayList<Task> getTasksById(String id) {
-        return new ArrayList<>(Arrays.asList(new Task(2), new Task(5)));
+        return new ArrayList<>(Arrays.asList(
+                new Task(1, "task1",new ArrayList<>(Arrays.asList(
+                        new AnswerOpinion("ans1", 1),
+                        new AnswerOpinion("ans2", 0))), "1", 2),
+                new Task(1, "task2",new ArrayList<>(Arrays.asList(
+                        new AnswerOpinion("ans1", 1),
+                        new AnswerOpinion("ans2", 0))), "1", 4)));
     }
 }

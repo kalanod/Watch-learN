@@ -9,9 +9,9 @@ public class Task {
     ArrayList<AnswerOpinion> answers;
     String forFilmId;
     int posStart;
-    boolean isFinished;
+    int isFinished;
 
-    public boolean isFinished() {
+    public int isFinished() {
         return isFinished;
     }
 
@@ -49,5 +49,18 @@ public class Task {
 
     public int getPosStart() {
         return posStart;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id:'" + id +
+                "',isMultipleAnswers:" + isMultipleAnswers +
+                ",title:'" + title +
+                "',answers:" + answers +
+                ",forFilmId:" + forFilmId +
+                ",posStart:" + posStart +
+                ",isFinished:" + isFinished +
+                '}';
     }
 }
