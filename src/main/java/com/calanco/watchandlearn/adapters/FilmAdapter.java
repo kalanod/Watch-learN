@@ -22,7 +22,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -40,7 +40,7 @@ public class FilmAdapter {
                     "WHERE genre = " + genre + ";");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -62,7 +62,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE id = " + id + ";");
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 return film;
             }
             return null;
@@ -79,7 +79,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE title = " + title + ";");
             while(rs.next()){
-                Film film = new Film(rs.getString("title"));
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 return film;
             }
             return null;

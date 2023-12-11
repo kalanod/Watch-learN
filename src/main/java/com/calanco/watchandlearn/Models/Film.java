@@ -10,9 +10,9 @@ public class Film implements Serializable {
     int season;
     int episode;
 
-    public Film(String title) {
+    public Film(String title, String icnSrc) {
         this.title = title;
-        icnSrc = "https://web-zoopark.ru/wp-content/uploads/2018/07/1-228.jpg";
+        this.icnSrc = icnSrc;
         id = 0;
     }
 
