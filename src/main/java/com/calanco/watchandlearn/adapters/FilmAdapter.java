@@ -9,49 +9,96 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
 public class FilmAdapter {
 
 
     public static ArrayList<Film> getFilms() {
-        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+        try (Connection connection = DatabaseConnector.connect()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films");
+            ArrayList<Film> arrFilms = new ArrayList<>();
+            while(rs.next()){
+                Film film = new Film(rs.getString("title"));
+                arrFilms.add(film);
+            }
+            return arrFilms;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 
-    public ArrayList<Film> getFilmsByGenre() {
+    public static ArrayList<Film> getFilmsByGenre(String genre) {
+        try (Connection connection = DatabaseConnector.connect()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
+                    "WHERE genre = " + genre + ";");
+            ArrayList<Film> arrFilms = new ArrayList<>();
+            while(rs.next()){
+                Film film = new Film(rs.getString("title"));
+                arrFilms.add(film);
+            }
+            return arrFilms;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static ArrayList<Film> getFilmsWatched() {
         return null;
     }
 
 
-    public ArrayList<Film> getFilmsWatched() {
-        return null;
+    public static Film getFilmById(int id) {
+        try (Connection connection = DatabaseConnector.connect()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
+                    "WHERE id = " + id + ";");
+            while(rs.next()){
+                Film film = new Film(rs.getString("title"));
+                return film;
+            }
+            return null;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 
-    public Film getFilmById(String id) {
-        return new Film("a");
-    }
-    public ArrayList<Film> getAllEpisodesById(String id) {
-        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+    public static Film getFilmByTitle(String title) {
+        try (Connection connection = DatabaseConnector.connect()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
+                    "WHERE title = " + title + ";");
+            while(rs.next()){
+                Film film = new Film(rs.getString("title"));
+                return film;
+            }
+            return null;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
-    public String getFilmUrlById(String id) {
-        return "a.mp4";
-    }
-    public Film getFilmByTitle(String title) {
-        return null;
-    }
 
-
-    public int addFilm(Film film) {
+    public static int addFilm(Film film) {
         return 0;
     }
 
 
-    public int UpdateFilm(Film oldFilm, Film newFilm) {
+    public static int UpdateFilm(Film oldFilm, Film newFilm) {
         return 0;
     }
 

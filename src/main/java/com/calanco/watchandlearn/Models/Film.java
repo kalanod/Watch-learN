@@ -3,23 +3,26 @@ package com.calanco.watchandlearn.Models;
 import java.io.Serializable;
 
 public class Film implements Serializable {
-    String id;
+    int id;
     String title;
     String icnSrc;
-    int genre;
-    boolean isWatched;
+    String genre;
     int season;
     int episode;
     int episodeTitle;
+    boolean isWatched;
 
     public Film(String title) {
         this.title = title;
         icnSrc = "https://web-zoopark.ru/wp-content/uploads/2018/07/1-228.jpg";
-        id = "0";
+        id = 0;
     }
 
     public Object getTitle() {
         return title;
+    }
+    public Object icnSrc() {
+        return icnSrc;
     }
 
     public Object getId() {
@@ -30,7 +33,7 @@ public class Film implements Serializable {
         return icnSrc;
     }
 
-    public int getGenre() {
+    public String getGenre() {
         return genre;
     }
 
