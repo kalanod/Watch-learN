@@ -17,30 +17,21 @@ import java.sql.Statement;
 
 
 public class FilmAdapter {
+    Connection connection;
 
-
-    public static ArrayList<Film> getFilms() {
-        try (Connection connection = DatabaseConnector.connect()) {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM films");
-            ArrayList<Film> arrFilms = new ArrayList<>();
-            while(rs.next()){
-                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
-                arrFilms.add(film);
-            }
-            return arrFilms;
+    public FilmAdapter() {
+        try {
+            connection = DatabaseConnector.connect();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-
-    public static ArrayList<Film> getFilmsByGenre(String genre) {
-        try (Connection connection = DatabaseConnector.connect()) {
+    public static ArrayList<Film> getFilms() {
+        try (Connection connection = DatabaseConnector.connect()){
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
-                    "WHERE genre = " + genre + ";");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while (rs.next()) {
                 Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
@@ -54,38 +45,56 @@ public class FilmAdapter {
     }
 
 
-    public ArrayList<Film> getFilmsWatched() {
-        return null;
-    }
-
-    public static Film getFilmById(int id) {
-        try (Connection connection = DatabaseConnector.connect()) {
+    public synchronized ArrayList<Film> getFilmsByGenre(String genre) {
+        try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
-                    "WHERE id = " + id + ";");
-            while(rs.next()){
+                    "WHERE genre = " + genre + ";");
+            ArrayList<Film> arrFilms = new ArrayList<>();
+            while (rs.next()) {
                 Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
-                return film;
+                arrFilms.add(film);
             }
-            return null;
-        } catch (SQLException | ClassNotFoundException e) {
+            return arrFilms;
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
 
-    public static Film getFilmByTitle(String title) {
-        try (Connection connection = DatabaseConnector.connect()) {
+    public ArrayList<Film> getFilmsWatched() {
+        return null;
+    }
+
+    public synchronized Film getFilmById(int id) {
+        try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
-                    "WHERE title = " + title + ";");
-            while(rs.next()){
+                    "WHERE id = " + id + ";");
+            while (rs.next()) {
                 Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 return film;
             }
             return null;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public synchronized Film getFilmByTitle(String title) {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
+                    "WHERE title = " + title + ";");
+            while (rs.next()) {
+                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
+                return film;
+            }
+            return null;
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -131,18 +140,19 @@ public class FilmAdapter {
          * types: [films, serials]
          */
         ArrayList<Film> list = new ArrayList<>();
-        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+        for (int i = fromElem; i < fromElem + countElems && i < FilmAdapter.getFilms().size(); i++) {
             list.add(FilmAdapter.getFilms().get(i));
             System.out.println(i);
         }
         return list;
     }
+
     public ArrayList<Film> getFilms(String type, int fromElem, int countElems, User user) {
         /**
          * types: [films, serials, watched, recomendation, inProcess] FOR user
          */
         ArrayList<Film> list = new ArrayList<>();
-        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+        for (int i = fromElem; i < fromElem + countElems && i < FilmAdapter.getFilms().size(); i++) {
             list.add(FilmAdapter.getFilms().get(i));
             System.out.println(i);
         }
@@ -155,10 +165,10 @@ public class FilmAdapter {
 
     public ArrayList<Task> getTasksById(String id) {
         return new ArrayList<>(Arrays.asList(
-                new Task(1, "task1",new ArrayList<>(Arrays.asList(
+                new Task(1, "task1", new ArrayList<>(Arrays.asList(
                         new AnswerOpinion("ans1", 1),
                         new AnswerOpinion("ans2", 0))), "1", 2),
-                new Task(1, "task2",new ArrayList<>(Arrays.asList(
+                new Task(1, "task2", new ArrayList<>(Arrays.asList(
                         new AnswerOpinion("ans1", 1),
                         new AnswerOpinion("ans2", 0))), "1", 4)));
     }
