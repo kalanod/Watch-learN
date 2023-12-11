@@ -1,0 +1,21 @@
+.videoBlock{
+    width: 1000px;
+    height: 500px;
+    max-width: 70%;
+    display: inline-block;
+    vertical-align: top;
+}
+#controlsBlock{
+    width: 25%;
+    height: 540px;
+    display: inline-block;
+    vertical-align: top;
+}
+#progressBlock{
+    width: 100%;
+    height: 40px;
+}
+#toTask-btn{
+    vertical-align: bottom;
+    width: 100%;
+}

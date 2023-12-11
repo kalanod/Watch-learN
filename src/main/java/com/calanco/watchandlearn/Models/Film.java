@@ -9,6 +9,7 @@ public class Film implements Serializable {
     String genre;
     int season;
     int episode;
+    int episodeTitle;
 
     public Film(String title, String icnSrc) {
         this.title = title;
@@ -19,11 +20,28 @@ public class Film implements Serializable {
     public Object getTitle() {
         return title;
     }
-    public Object icnSrc() {
-        return icnSrc;
-    }
 
     public Object getId() {
         return id;
+    }
+
+    public String getIcnSrc() {
+        return icnSrc;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getSeason() {
+        return season;
+    }
+
+    public int getEpisode() {
+        return episode;
+    }
+
+    public int getEpisodeTitle() {
+        return episodeTitle;
     }
 }

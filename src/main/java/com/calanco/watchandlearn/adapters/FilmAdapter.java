@@ -1,10 +1,12 @@
 package com.calanco.watchandlearn.adapters;
 
 import com.calanco.watchandlearn.Models.Film;
-import jakarta.servlet.http.HttpSession;
+import com.calanco.watchandlearn.Models.Task;
+import com.calanco.watchandlearn.Models.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +41,7 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE genre = " + genre + ";");
             ArrayList<Film> arrFilms = new ArrayList<>();
-            while(rs.next()){
+            while (rs.next()) {
                 Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
                 arrFilms.add(film);
             }
@@ -51,10 +53,9 @@ public class FilmAdapter {
     }
 
 
-    public static ArrayList<Film> getFilmsWatched() {
+    public ArrayList<Film> getFilmsWatched() {
         return null;
     }
-
 
     public static Film getFilmById(int id) {
         try (Connection connection = DatabaseConnector.connect()) {
@@ -89,14 +90,69 @@ public class FilmAdapter {
         }
     }
 
-
+    /*
     public static int addFilm(Film film) {
-        return 0;
+=======
+    public Film getFilmById(String id) {
+        return new Film("a");
+    }
+    public ArrayList<Film> getAllEpisodesById(String id) {
+        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
+                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+    }
+
+    public String getFilmUrlById(String id) {
+        return "a.mp4";
+    }
+    public Film getFilmByTitle(String title) {
+        return null;
     }
 
 
-    public static int UpdateFilm(Film oldFilm, Film newFilm) {
+    public int addFilm(Film film) {
+>>>>>>> master
         return 0;
     }
 
+     */
+
+    public int addFilm(Film film) {
+        return 0;
+    }
+
+    public int UpdateFilm(Film oldFilm, Film newFilm) {
+        return 0;
+    }
+
+    public ArrayList<Film> getFilms(String type, int fromElem, int countElems) {
+        /**
+         * types: [films, serials]
+         */
+        ArrayList<Film> list = new ArrayList<>();
+        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+            list.add(FilmAdapter.getFilms().get(i));
+            System.out.println(i);
+        }
+        return list;
+    }
+    public ArrayList<Film> getFilms(String type, int fromElem, int countElems, User user) {
+        /**
+         * types: [films, serials, watched, recomendation, inProcess] FOR user
+         */
+        ArrayList<Film> list = new ArrayList<>();
+        for (int i = fromElem; i < fromElem+countElems && i < FilmAdapter.getFilms().size(); i++) {
+            list.add(FilmAdapter.getFilms().get(i));
+            System.out.println(i);
+        }
+        return list;
+    }
+
+    public int getFilmsCount() {
+        return getFilms().size();
+    }
+
+    public ArrayList<Task> getTasksById(String id) {
+        return new ArrayList<>(Arrays.asList(new Task(2), new Task(5)));
+    }
 }
