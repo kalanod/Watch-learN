@@ -13,6 +13,7 @@ public class Film implements Serializable {
     boolean isWatched;
     String filmUrl;
 
+    @Deprecated
     public Film(String title, String icnSrc) {
         this.title = title;
         this.icnSrc = icnSrc;

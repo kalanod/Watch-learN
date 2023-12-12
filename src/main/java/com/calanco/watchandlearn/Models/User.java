@@ -40,6 +40,9 @@ public class User implements Serializable {
     public String getColor() {
         return color;
     }
+    public String getPassword() {
+        return password;
+    }
 
     public String getImgSrc() {
         return imgSrc;
