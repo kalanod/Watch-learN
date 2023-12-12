@@ -12,6 +12,7 @@ public class Film implements Serializable {
     String episodeTitle;
     boolean isWatched;
     String filmUrl;
+    String type;
 
     @Deprecated
     public Film(String title, String icnSrc) {
@@ -34,6 +35,17 @@ public class Film implements Serializable {
 
     public Film(String a) {
         title = a;
+    }
+
+    public Film(String title, String genre, int season, int episode, String episodeTitle, String type) {
+        this.title = title;
+        this.icnSrc = "preview/" + title + ".jpg";
+        this.genre = genre;
+        this.season = season;
+        this.episode = episode;
+        this.episodeTitle = episodeTitle;
+        this.filmUrl = "videos/" + title + "_" + genre +
+        "_" + season + "_" + episode + "_" + episodeTitle + "." + type;
     }
 
     public Object getTitle() {

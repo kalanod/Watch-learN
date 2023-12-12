@@ -8,7 +8,6 @@ import com.calanco.watchandlearn.Models.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 
 public class FilmAdapter {
@@ -24,7 +23,7 @@ public class FilmAdapter {
     }
 
     public static ArrayList<Film> getFilms() {
-        try (Connection connection = DatabaseConnector.connect()){
+        try (Connection connection = DatabaseConnector.connect()) {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM films");
             ArrayList<Film> arrFilms = new ArrayList<>();
@@ -167,6 +166,27 @@ public class FilmAdapter {
                 return rs.getString("filmUrl");
             }
             return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int addFilm(String film) {
+        return addFilm(new Film(
+                film.split("_")[0],
+                film.split("_")[1],
+                Integer.parseInt(film.split("_")[2]),
+                Integer.parseInt(film.split("_")[3]),
+                film.split("_")[4].split("\\.")[0],
+                film.split("\\.")[1]));
+    }
+    public int delAllFilms() {
+        try {
+            String command = "DELETE FROM films";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            stmt.execute();
+            return 0;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
