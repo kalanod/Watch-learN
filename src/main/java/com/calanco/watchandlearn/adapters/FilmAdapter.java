@@ -34,7 +34,15 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while (rs.next()) {
-                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
+                Film film = new Film(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("icnSrc"),
+                        rs.getString("genre"),
+                        rs.getInt("season"),
+                        rs.getInt("episode"),
+                        rs.getString("episodeTitle"),
+                        rs.getInt("isWatched"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -72,7 +80,15 @@ public class FilmAdapter {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE id = " + id + ";");
             while (rs.next()) {
-                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
+                Film film = new Film(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("icnSrc"),
+                        rs.getString("genre"),
+                        rs.getInt("season"),
+                        rs.getInt("episode"),
+                        rs.getString("episodeTitle"),
+                        rs.getInt("isWatched"));
                 return film;
             }
             return null;
@@ -89,7 +105,15 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
                     "WHERE title = " + title + ";");
             while (rs.next()) {
-                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
+                Film film = new Film(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("icnSrc"),
+                        rs.getString("genre"),
+                        rs.getInt("season"),
+                        rs.getInt("episode"),
+                        rs.getString("episodeTitle"),
+                        rs.getInt("isWatched"));
                 return film;
             }
             return null;

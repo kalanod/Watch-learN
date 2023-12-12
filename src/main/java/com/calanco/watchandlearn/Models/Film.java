@@ -9,7 +9,7 @@ public class Film implements Serializable {
     String genre;
     int season;
     int episode;
-    int episodeTitle;
+    String episodeTitle;
     boolean isWatched;
 
     public Film(String title, String icnSrc) {
@@ -18,7 +18,7 @@ public class Film implements Serializable {
         id = 0;
     }
 
-    public Film(int id, String title, String icnSrc, String genre, int season, int episode, int episodeTitle, boolean isWatched) {
+    public Film(int id, String title, String icnSrc, String genre, int season, int episode, String episodeTitle, int isWatched) {
         this.id = id;
         this.title = title;
         this.icnSrc = icnSrc;
@@ -26,7 +26,7 @@ public class Film implements Serializable {
         this.season = season;
         this.episode = episode;
         this.episodeTitle = episodeTitle;
-        this.isWatched = isWatched;
+        this.isWatched = isWatched == 1;
     }
 
     public Film(String a) {
@@ -61,7 +61,7 @@ public class Film implements Serializable {
         return episode;
     }
 
-    public int getEpisodeTitle() {
+    public String getEpisodeTitle() {
         return episodeTitle;
     }
 }

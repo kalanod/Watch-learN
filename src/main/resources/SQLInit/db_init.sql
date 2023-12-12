@@ -22,9 +22,11 @@ CREATE TABLE `films` (
     `genre` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     `season` int(11) NOT NULL,
     `episode` int(11) NOT NULL,
+    `episodeTitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    `isWatched` int(11) NOT NULL,
     PRIMARY KEY (`id`)
     );
 
-insert into films (title, icnSrc, genre, season, episode) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 0, 0);
+insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 0, 0, 'ohaio', 0);
 
 SELECT * FROM films WHERE id = 2;
