@@ -20,8 +20,9 @@ public class LoginServlet extends HttpServlet {
         User user = new User(
                 req.getParameter("email"),
                 req.getParameter("password"));
+        System.out.println(req.getParameter("email"));
         UserAdapter adapter = new UserAdapter();
-        int res = adapter.addNewUser(user);
+        int res = adapter.isCorrectData(user);
         resp.getWriter().print(res);
         if (res == 1) req.getSession().setAttribute("User", adapter.fillUser(user));
     }

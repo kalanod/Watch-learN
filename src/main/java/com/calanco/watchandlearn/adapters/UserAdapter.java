@@ -11,6 +11,16 @@ import java.util.Objects;
 
 public class UserAdapter implements UserInterface {
     Connection connection;
+
+    public UserAdapter() {
+        try {
+            connection = DatabaseConnector.connect();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public User getUserById(String id) {
         try {
@@ -33,15 +43,28 @@ public class UserAdapter implements UserInterface {
     @Override
     public int addNewUser(User user) {
         try {
+            if (isEmailRegistred(user)) return 0;
             String command = " INSERT INTO users (name, email, password)"
                     + " VALUES (?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(command);
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
+            System.out.println(stmt);
             stmt.execute();
             System.out.println(0);
-            return 0;
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isEmailRegistred(User u) {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE email = '" + u.getEmail() + "';");
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -58,13 +81,13 @@ public class UserAdapter implements UserInterface {
      */
     @Override
     public int isCorrectData(User user) {
-        try (Connection connection = DatabaseConnector.connect()){
+        try (Connection connection = DatabaseConnector.connect()) {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while (rs.next()) {
-                if (Objects.equals(user.getName(), rs.getString("name")) && Objects.equals(user.getEmail(), rs.getString("email"))
-                        && Objects.equals(user.getPassword(), rs.getString("password"))) {
+                if (user.getEmail().equals(rs.getString("email")) &&
+                        user.getPassword().equals(rs.getString("password"))){
                     return 1;
                 }
             }
@@ -76,7 +99,7 @@ public class UserAdapter implements UserInterface {
     }
 
     public boolean isAuthorized(User user) {
-        if (user == null){
+        if (user == null) {
             System.out.println("null");
             return false;
         }

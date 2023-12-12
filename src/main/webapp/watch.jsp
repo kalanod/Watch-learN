@@ -71,14 +71,14 @@
         <%
             ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
             for (int i = 0; i < episodes.size(); i++) {
-                if (episodes.get(i).getId().equals(request.getParameter("id"))) {
+                if (episodes.get(i).getId().toString().equals(request.getParameter("id"))) {
         %>
-        <a class="list-group-item list-group-item-action active" aria-current="true"
+        <a href='<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>' class="list-group-item list-group-item-action active" aria-current="true"
            aria-disabled="true">s<%=episodes.get(i).getSeason()%>
             ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
         </a>
         <%} else {%>
-        <a href="#" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%>
+        <a href="<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%>
             ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
         </a>
         <%
