@@ -55,7 +55,16 @@ public class FilmAdapter {
             ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE genre = " + genre + ";");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while (rs.next()) {
-                Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
+                Film film = new Film(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("icnSrc"),
+                        rs.getString("genre"),
+                        rs.getInt("season"),
+                        rs.getInt("episode"),
+                        rs.getString("episodeTitle"),
+                        rs.getInt("isWatched"),
+                        rs.getString("filmUrl"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -178,11 +187,11 @@ public class FilmAdapter {
             stmt.setString(6, film.getEpisodeTitle());
             stmt.setString(7, film.getFilmUrl());
             stmt.execute();
+            return 0;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return 0;
     }
 
     public int UpdateFilm(Film oldFilm, Film newFilm) {

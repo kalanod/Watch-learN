@@ -4,24 +4,48 @@ import com.calanco.watchandlearn.Models.Film;
 import com.calanco.watchandlearn.Models.User;
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.*;
 import java.util.ArrayList;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Objects;
 
 
 public class UserAdapter implements UserInterface {
+    Connection connection;
     @Override
     public User getUserById(String id) {
-        return null;
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = " + id + ";");
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password"));
+                return user;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int addNewUser(User user) {
-        return 1;
+        try {
+            String command = " INSERT INTO users (name, email, password)"
+                    + " VALUES (?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.execute();
+            System.out.println(0);
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -34,7 +58,21 @@ public class UserAdapter implements UserInterface {
      */
     @Override
     public int isCorrectData(User user) {
-        return 0;
+        try (Connection connection = DatabaseConnector.connect()){
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+            ArrayList<Film> arrFilms = new ArrayList<>();
+            while (rs.next()) {
+                if (Objects.equals(user.getName(), rs.getString("name")) && Objects.equals(user.getEmail(), rs.getString("email"))
+                        && Objects.equals(user.getPassword(), rs.getString("password"))) {
+                    return 1;
+                }
+            }
+            return 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean isAuthorized(User user) {
