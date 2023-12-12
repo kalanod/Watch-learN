@@ -23,10 +23,13 @@ CREATE TABLE `films` (
     `season` int(11) NOT NULL,
     `episode` int(11) NOT NULL,
     `episodeTitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-    `isWatched` int(11) NOT NULL,
+    `isWatched` int(11) NOT NULL DEFAULT 0,
+    `filmUrl` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`)
     );
 
-insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 0, 0, 'ohaio', 0);
+insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 1, 'ohaio', 0, 'a.mp4');
+insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 2, 'nigga', 0, 'a.mp4');
+insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 3, 'End of Evangelion', 0, 'penta.webm');
 
 SELECT * FROM films WHERE id = 2;

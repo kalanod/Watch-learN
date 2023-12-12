@@ -5,15 +5,10 @@ import com.calanco.watchandlearn.Models.Film;
 import com.calanco.watchandlearn.Models.Task;
 import com.calanco.watchandlearn.Models.User;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class FilmAdapter {
@@ -42,7 +37,8 @@ public class FilmAdapter {
                         rs.getInt("season"),
                         rs.getInt("episode"),
                         rs.getString("episodeTitle"),
-                        rs.getInt("isWatched"));
+                        rs.getInt("isWatched"),
+                        rs.getString("filmUrl"));
                 arrFilms.add(film);
             }
             return arrFilms;
@@ -56,8 +52,7 @@ public class FilmAdapter {
     public synchronized ArrayList<Film> getFilmsByGenre(String genre) {
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
-                    "WHERE genre = " + genre + ";");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE genre = " + genre + ";");
             ArrayList<Film> arrFilms = new ArrayList<>();
             while (rs.next()) {
                 Film film = new Film(rs.getString("title"), rs.getString("icnSrc"));
@@ -88,7 +83,8 @@ public class FilmAdapter {
                         rs.getInt("season"),
                         rs.getInt("episode"),
                         rs.getString("episodeTitle"),
-                        rs.getInt("isWatched"));
+                        rs.getInt("isWatched"),
+                        rs.getString("filmUrl"));
                 return film;
             }
             return null;
@@ -102,8 +98,7 @@ public class FilmAdapter {
     public synchronized Film getFilmByTitle(String title) {
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM films" +
-                    "WHERE title = " + title + ";");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE title = '" + title + "';");
             while (rs.next()) {
                 Film film = new Film(
                         rs.getInt("id"),
@@ -113,7 +108,8 @@ public class FilmAdapter {
                         rs.getInt("season"),
                         rs.getInt("episode"),
                         rs.getString("episodeTitle"),
-                        rs.getInt("isWatched"));
+                        rs.getInt("isWatched"),
+                        rs.getString("filmUrl"));
                 return film;
             }
             return null;
@@ -125,16 +121,67 @@ public class FilmAdapter {
 
 
     public ArrayList<Film> getAllEpisodesById(String id) {
-        return new ArrayList<>(Arrays.asList(new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"),
-                new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a"), new Film("a")));
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet title_res = stmt.executeQuery("SELECT * FROM films WHERE id = " + id + ";");
+            String title = "";
+            while (title_res.next()) {
+                title = title_res.getString("title");
+            }
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE title = '" + title + "';");
+            ArrayList<Film> films = new ArrayList<>();
+            while (rs.next()) {
+                Film film = new Film(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("icnSrc"),
+                        rs.getString("genre"),
+                        rs.getInt("season"),
+                        rs.getInt("episode"),
+                        rs.getString("episodeTitle"),
+                        rs.getInt("isWatched"),
+                        rs.getString("filmUrl"));
+                films.add(film);
+            }
+            return films;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public String getFilmUrlById(String id) {
-        return "a.mp4";
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE id = " + id + ";");
+            while (rs.next()) {
+                return rs.getString("filmUrl");
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public int addFilm(Film film) {
+        //insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 3, 'End of Evangelion', 0, 'penta.webm');
+        try {
+            String command = " INSERT INTO films (title, icnSrc, genre, season, episode, episodeTitle, filmUrl)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            stmt.setString(1, film.getTitle().toString());
+            stmt.setString(2, film.getIcnSrc());
+            stmt.setString(3, film.getGenre());
+            stmt.setInt(4, film.getSeason());
+            stmt.setInt(5, film.getEpisode());
+            stmt.setString(6, film.getEpisodeTitle());
+            stmt.setString(7, film.getFilmUrl());
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         return 0;
     }
 
