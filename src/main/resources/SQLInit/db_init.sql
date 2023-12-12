@@ -26,3 +26,5 @@ CREATE TABLE `films` (
     );
 
 insert into films (title, icnSrc, genre, season, episode) values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 0, 0);
+
+SELECT * FROM films WHERE id = 2;

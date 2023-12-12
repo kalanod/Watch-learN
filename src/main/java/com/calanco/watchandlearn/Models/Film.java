@@ -18,6 +18,21 @@ public class Film implements Serializable {
         id = 0;
     }
 
+    public Film(int id, String title, String icnSrc, String genre, int season, int episode, int episodeTitle, boolean isWatched) {
+        this.id = id;
+        this.title = title;
+        this.icnSrc = icnSrc;
+        this.genre = genre;
+        this.season = season;
+        this.episode = episode;
+        this.episodeTitle = episodeTitle;
+        this.isWatched = isWatched;
+    }
+
+    public Film(String a) {
+        title = a;
+    }
+
     public Object getTitle() {
         return title;
     }

@@ -26,7 +26,4 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = req.getSession();
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
-
-    public void destroy() {
-    }
 }
