@@ -198,7 +198,7 @@ public class FilmAdapter {
             stmt.setString(6, film.getEpisodeTitle());
             stmt.setString(7, film.getFilmUrl());
             stmt.execute();
-            return 0;
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
