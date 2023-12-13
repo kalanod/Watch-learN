@@ -1,6 +1,8 @@
 package com.calanco.watchandlearn.test;
 
+import com.calanco.watchandlearn.Models.AnswerOpinion;
 import com.calanco.watchandlearn.Models.Film;
+import com.calanco.watchandlearn.Models.Task;
 import com.calanco.watchandlearn.adapters.DatabaseConnector;
 import com.calanco.watchandlearn.adapters.FilmAdapter;
 import java.sql.*;
@@ -69,5 +71,29 @@ public class FilmsTest {
         }
 
         Assertions.assertFalse(check);
+    }
+
+    @Test
+    @DisplayName("Add Task")
+    void createTask(){
+        ArrayList<AnswerOpinion> answers = new ArrayList<>();
+        answers.add(new AnswerOpinion("testans1", 0));
+        answers.add(new AnswerOpinion("testans2", 0));
+        Task testTask = new Task(1, "test", answers, testFilmAdapter.getFilmId(testFilm), 1);
+
+        testFilmAdapter.addTask(testTask);
+
+        boolean check = false;
+        ArrayList<Task> tasks = testFilmAdapter.getTasksById(String.valueOf(testFilmAdapter.getFilmId(testFilm)));
+        for (Task task: tasks){
+            if (task.getTitle().equals(testTask.getTitle()) && task.getForFilmId() == testFilmAdapter.getFilmId(testFilm)){
+                check = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(check);
+
+        testFilmAdapter.delAllTasks();
     }
 }
