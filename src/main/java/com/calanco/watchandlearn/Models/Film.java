@@ -20,6 +20,12 @@ public class Film implements Serializable {
         this.icnSrc = icnSrc;
         id = 0;
     }
+    public Film(String title, int season, int episode, String epTitle) {
+        this.title = title;
+        this.season = season;
+        this.episode = episode;
+        this.episodeTitle = epTitle;
+    }
 
     public Film(int id, String title, String icnSrc, String genre, int season, int episode, String episodeTitle, int isWatched, String filmUrl) {
         this.id = id;
@@ -33,9 +39,6 @@ public class Film implements Serializable {
         this.filmUrl = filmUrl;
     }
 
-    public Film(String a) {
-        title = a;
-    }
 
     public Film(String title, String genre, int season, int episode, String episodeTitle, String type) {
         this.title = title;

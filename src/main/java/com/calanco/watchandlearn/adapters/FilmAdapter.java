@@ -238,13 +238,73 @@ public class FilmAdapter {
     }
 
     public ArrayList<Task> getTasksById(String id) {
-        return new ArrayList<>(Arrays.asList(
-                new Task(1, "task1", new ArrayList<>(Arrays.asList(
-                        new AnswerOpinion("ans1", 1),
-                        new AnswerOpinion("ans2", 0))), "1", 2),
-                new Task(1, "task2", new ArrayList<>(Arrays.asList(
-                        new AnswerOpinion("ans1", 1),
-                        new AnswerOpinion("ans2", 0))), "1", 4)));
+        ArrayList<Task> list = new ArrayList<>();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tasks WHERE film_id = " + id + ";");
+            while (rs.next()) {
+                String[] ans = rs.getString("answers").split(",");
+                String[] cor = rs.getString("correct").split(",");
+                ArrayList<AnswerOpinion> ap = new ArrayList<>();
+                for (int i = 0; i<ans.length; i++) {
+                    ap.add(new AnswerOpinion(ans[i], Integer.parseInt(cor[i])));
+                }
+                list.add(new Task(
+                        rs.getString("correct").split(",").length == 1 ? 0 : 1,
+                        rs.getString("title"),
+                        ap,
+                        rs.getInt("film_id"),
+                        rs.getInt("start_pos")));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
+    public void delAllTasks() {
+        try {
+            String command = "DELETE FROM tasks";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getFilmId(Film film) {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM films WHERE title = '" +
+                    film.getTitle() + "' and season = " + film.getSeason() +
+                    " and episode=" + film.getEpisode() + " and episodeTitle = '"+film.getEpisodeTitle()+"';");
+            while (rs.next()) {
+                return rs.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addTask(Task task) {
+        try {
+            String command = " INSERT INTO tasks (title, answers, correct, film_id, start_pos)"
+                    + " VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            stmt.setString(1, task.getTitle());
+            stmt.setString(2, String.join(",", task.getAnswersTitle()));
+            stmt.setString(3, String.join(",", task.getAnswersCorrects()));
+            stmt.setInt(4, task.getForFilmId());
+            stmt.setInt(5, task.getPosStart());
+            stmt.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

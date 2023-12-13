@@ -13,6 +13,10 @@ public class AnswerOpinion {
         return title;
     }
 
+    public int getIsCorrect() {
+        return isCorrect;
+    }
+
     public int isCorrect() {
         return isCorrect;
     }

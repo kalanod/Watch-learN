@@ -7,7 +7,7 @@ public class Task {
     int isMultipleAnswers;
     String title;
     ArrayList<AnswerOpinion> answers;
-    String forFilmId;
+    int forFilmId;
     int posStart;
     int isFinished;
 
@@ -19,7 +19,7 @@ public class Task {
         posStart = i;
     }
 
-    public Task(int isMultipleAnswers, String title, ArrayList<AnswerOpinion> answers, String forFilmId, int posStart) {
+    public Task(int isMultipleAnswers, String title, ArrayList<AnswerOpinion> answers, int forFilmId, int posStart) {
         this.isMultipleAnswers = isMultipleAnswers;
         this.title = title;
         this.answers = answers;
@@ -43,7 +43,7 @@ public class Task {
         return answers;
     }
 
-    public String getForFilmId() {
+    public int getForFilmId() {
         return forFilmId;
     }
 
@@ -62,5 +62,14 @@ public class Task {
                 ",posStart:" + posStart +
                 ",isFinished:" + isFinished +
                 '}';
+    }
+
+    public String[] getAnswersTitle() {
+        return answers.stream().map(AnswerOpinion::getTitle).toArray(String[]::new);
+    }
+
+    public String[] getAnswersCorrects() {
+        return answers.stream().map(x -> String.valueOf(x.getIsCorrect())).toArray(String[]::new);
+
     }
 }

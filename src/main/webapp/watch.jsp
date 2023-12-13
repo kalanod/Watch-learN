@@ -174,22 +174,26 @@
             } else if (currentTime >= tasks[i]["posStart"] && currentTime < tasks[i + 1]["posStart"]) {
                 currentTask = i + 1;
             }
-
         }
-        if (currentTime > tasks[tasks.length - 2]["posStart"]) {
+        if (currentTask=== -1 || currentTime > tasks[tasks.length - 2]["posStart"]) {
             $("#toTask-btn").hide()
         }
     });
+    if (currentTask=== -1) {
+        $("#toTask-btn").hide()
+    }
     checkBtn.click(function () {
-
         var re = 1;
+        console.log("-----------")
         for (var i of tasks[currentTask]["answers"]) {
-            console.log(document.getElementById(i["title"]).checked, i["isCorrect"])
+
+            console.log(document.getElementById(i["title"]).checked, i["isCorrect"]);
             if ((document.getElementById(i["title"]).checked && i["isCorrect"] === 0) ||
                 (!document.getElementById(i["title"]).checked && i["isCorrect"] === 1)) {
                 re = 0;
             }
         }
+        console.log("-----------")
         if (re === 1) {
             appendAlert("верно", "success")
             return
@@ -215,6 +219,7 @@
     });
 
     function showTask(i) {
+        checkBtn.show()
         console.log("task number " + i);
         taskTitle.show();
         taskE.show(100);
