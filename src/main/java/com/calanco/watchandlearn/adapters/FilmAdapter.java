@@ -172,15 +172,6 @@ public class FilmAdapter {
         }
     }
 
-    public int addFilm(String film) {
-        return addFilm(new Film(
-                film.split("_")[0],
-                film.split("_")[1],
-                Integer.parseInt(film.split("_")[2]),
-                Integer.parseInt(film.split("_")[3]),
-                film.split("_")[4].split("\\.")[0],
-                film.split("\\.")[1]));
-    }
     public int delAllFilms() {
         try {
             String command = "DELETE FROM films";

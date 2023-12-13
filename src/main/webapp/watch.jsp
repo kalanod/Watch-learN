@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.118.2">
-    <title><%=filmAdapter.getFilmById(request.getParameter("id"))%>
+    <title><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%>
     </title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -41,59 +41,67 @@
 <body>
 <%@include file="header.jsp" %>
 <h2></h2>
-<div class="videoBlock">
-    <div id="progressBlock">
+<div class="data_block">
+    <h2 style="margin-left: 100px"><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%>
+        - <%=filmAdapter.getFilmById(request.getParameter("id")).getEpisodeTitle()%>
+    </h2>
+    <div class="videoBlock">
+        <div id="progressBlock">
+        </div>
+        <div id="taskBlock">
+            <h3 id="task-title"></h3>
+            <ul class="list-group taskE" id="task">
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio"
+                           checked>
+                    <label class="form-check-label" for="firstRadio">First radio</label>
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="secondRadio">
+                    <label class="form-check-label" for="secondRadio">Second radio</label>
+                </li>
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="thirdRadio">
+                    <label class="form-check-label" for="thirdRadio">Third radio</label>
+                </li>
+            </ul>
+            <div id="liveAlertPlaceholder"></div>
+            <button type="button" class="btn btn-outline-primary" id="checkBtn">Проверить</button>
+        </div>
+        <video id="my-video" class="video-js" controls style="max-height: 100%; max-width: 100%"></video>
+
     </div>
-    <h3 id="task-title"></h3>
-    <video id="my-video" class="video-js" controls style="max-height: 100%; max-width: 100%"></video>
-    <ul class="list-group taskE" id="task">
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio" checked>
-            <label class="form-check-label" for="firstRadio">First radio</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="secondRadio">
-            <label class="form-check-label" for="secondRadio">Second radio</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="thirdRadio">
-            <label class="form-check-label" for="thirdRadio">Third radio</label>
-        </li>
-    </ul>
-    <div id="liveAlertPlaceholder"></div>
-    <button type="button" class="btn btn-outline-primary" id="checkBtn">Проверить</button>
-</div>
-<div id="controlsBlock">
-    <h3>s<%=filmAdapter.getFilmById(request.getParameter("id")).getSeason()%>
-        ep<%=filmAdapter.getFilmById(request.getParameter("id")).getEpisode()%>
-    </h3>
-    <div class="list-group" style="overflow-y:scroll; height:400px;">
-        <%
-            ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
-            for (int i = 0; i < episodes.size(); i++) {
-                if (episodes.get(i).getId().toString().equals(request.getParameter("id"))) {
-        %>
-        <a href='<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>' class="list-group-item list-group-item-action active" aria-current="true"
-           aria-disabled="true">s<%=episodes.get(i).getSeason()%>
-            ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
-        </a>
-        <%} else {%>
-        <a href="<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>" class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%>
-            ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
-        </a>
-        <%
+    <div id="controlsBlock">
+        <!--<h3>s<%=filmAdapter.getFilmById(request.getParameter("id")).getSeason()%>
+            ep<%=filmAdapter.getFilmById(request.getParameter("id")).getEpisode()%>
+        </h3>-->
+        <div class="list-group" style="overflow-y:scroll; height:400px;">
+            <%
+                ArrayList<Film> episodes = filmAdapter.getAllEpisodesById(request.getParameter("id"));
+                for (int i = 0; i < episodes.size(); i++) {
+                    if (episodes.get(i).getId().toString().equals(request.getParameter("id"))) {
+            %>
+            <a href='<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>'
+               class="list-group-item list-group-item-action active" aria-current="true"
+               aria-disabled="true">s<%=episodes.get(i).getSeason()%>
+                ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
+            </a>
+            <%} else {%>
+            <a href="<%=request.getContextPath() + "/watch?id=" + episodes.get(i).getId()%>"
+               class="list-group-item list-group-item-action">s<%=episodes.get(i).getSeason()%>
+                ep<%=episodes.get(i).getEpisode()%> <%=episodes.get(i).getEpisodeTitle()%>
+            </a>
+            <%
+                    }
                 }
-            }
-        %>
+            %>
+        </div>
+        <button type="button" class="btn btn-outline-primary" id="toTask-btn">К заданию</button>
+        <button type="button" class="btn btn-outline-primary" id="toVideo-btn">Далее</button>
+
     </div>
-    <button type="button" class="btn btn-outline-primary" id="toTask-btn">К заданию</button>
-    <button type="button" class="btn btn-outline-primary" id="toVideo-btn">Далее</button>
 
 </div>
-<h2><%=filmAdapter.getFilmById(request.getParameter("id")).getTitle()%>
-    -<br> <%=filmAdapter.getFilmById(request.getParameter("id")).getEpisodeTitle()%>
-</h2>
-
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="check-circle-fill" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -135,14 +143,14 @@
     <%}%>
     var currentTask = tasks.length > 0 ? 0 : -1;
     var currentTime;
-    tasks.push({"posStart":  99999999999})
+    tasks.push({"posStart": 99999999999})
 
 
     const appendAlert = (message, type) => {
         const wrapper = document.createElement('div')
         wrapper.innerHTML = [
-            '<div class="alert alert-' +type + 'alert-dismissible" role="alert">',
-            '   <div>' + message +'</div>',
+            '<div class="alert alert-' + type + 'alert-dismissible" role="alert">',
+            '   <div>' + message + '</div>',
             '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
             '</div>'
         ].join('')
@@ -153,10 +161,10 @@
 
     player.on('timeupdate', function () {
         currentTime = player.currentTime()
-        currentTask=0
+        currentTask = 0
         console.log(currentTask)
         for (var i = 0; i < tasks.length - 1; i++) {
-            if (currentTime +1 >= tasks[i]["posStart"] && currentTime +1 < tasks[i + 1]["posStart"]) {
+            if (currentTime + 1 >= tasks[i]["posStart"] && currentTime + 1 < tasks[i + 1]["posStart"]) {
                 currentTask = i;
                 $("#toTask-btn").show()
                 if (tasks[i]["isFinished"] === 0) {
@@ -175,14 +183,14 @@
     checkBtn.click(function () {
 
         var re = 1;
-        for (var i of tasks[currentTask]["answers"]){
+        for (var i of tasks[currentTask]["answers"]) {
             console.log(document.getElementById(i["title"]).checked, i["isCorrect"])
             if ((document.getElementById(i["title"]).checked && i["isCorrect"] === 0) ||
-                (!document.getElementById(i["title"]).checked && i["isCorrect"] === 1)){
+                (!document.getElementById(i["title"]).checked && i["isCorrect"] === 1)) {
                 re = 0;
             }
         }
-        if (re === 1){
+        if (re === 1) {
             appendAlert("верно", "success")
             return
         }
@@ -218,14 +226,14 @@
             if (ans["isMultipleAnswers"] === 1) {
                 document.getElementById("task").innerHTML +=
                     '<li class="list-group-item">' +
-                    '<input class="form-check-input me-1" type="checkbox" value="" id="' + ans["title"] +'">' +
-                    '<label class="form-check-label stretched-link" for="' + ans["title"] +'">' + ans["title"] +
+                    '<input class="form-check-input me-1" type="checkbox" value="" id="' + ans["title"] + '">' +
+                    '<label class="form-check-label stretched-link" for="' + ans["title"] + '">' + ans["title"] +
                     '</label></li>';
             } else {
                 document.getElementById("task").innerHTML +=
                     '<li class="list-group-item">' +
-                    '<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="' + ans["title"] +'" checked>' +
-                    '<label class="form-check-label stretched-link" for="' + ans["title"] +'">' + ans["title"] +
+                    '<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="' + ans["title"] + '" checked>' +
+                    '<label class="form-check-label stretched-link" for="' + ans["title"] + '">' + ans["title"] +
                     '</label></li>';
             }
         }

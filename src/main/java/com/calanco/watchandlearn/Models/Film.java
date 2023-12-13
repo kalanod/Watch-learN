@@ -47,6 +47,15 @@ public class Film implements Serializable {
         this.filmUrl = "videos/" + title + "_" + genre +
         "_" + season + "_" + episode + "_" + episodeTitle + "." + type;
     }
+    public Film(String title, String genre, int season, int episode, String episodeTitle, String type, String url) {
+        this.title = title;
+        this.icnSrc = "preview/" + title + ".jpg";
+        this.genre = genre;
+        this.season = season;
+        this.episode = episode;
+        this.episodeTitle = episodeTitle;
+        this.filmUrl = url;
+    }
 
     public Object getTitle() {
         return title;
