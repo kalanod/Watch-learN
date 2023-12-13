@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -70,6 +71,36 @@ public class UserAdapter implements UserInterface {
             throw new RuntimeException(e);
         }
     }
+    public synchronized void addCompleted(User u, String i) {
+        System.out.println(u.getId());
+        System.out.println(i);
+        System.out.println("pop");
+        try {
+            String st = String.join(",", getWatched(u)) + "," + i;
+            String command = " UPDATE users SET completed = '"+st+"' WHERE id = " + u.getId()+";";
+            PreparedStatement stmt = connection.prepareStatement(command);
+            System.out.println(stmt);
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+    public synchronized ArrayList<String> getWatched(User u) {
+        try {
+            Statement stmt = connection.createStatement();
+            String st;
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT completed FROM users WHERE id = "+ u.getId()+";");
+            if (rs.next() && !(rs.getString("completed") == null)){
+                return new ArrayList<>(Arrays.asList(rs.getString("completed").split(",")));
+            };
+            return new ArrayList<>();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public int updateUser(User oldUser, User newUser) {
@@ -115,11 +146,24 @@ public class UserAdapter implements UserInterface {
         return FilmAdapter.getFilms();
     }
 
-    /**
-     * @param user с заполненными email или id
-     * @return user с заполненными ВСЕМИ полями, провеку на корректность проводить не обязательно
-     */
-    public User fillUser(User user) {
-        return user;
+
+    public User fillUser(User u) {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE email = '" + u.getEmail()+ "'" +
+                    "and password = '"+u.getPassword()+"';");
+            while (rs.next()) {
+                User user = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password"));
+                return user;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

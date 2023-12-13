@@ -143,10 +143,10 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="${pageContext.request.contextPath}/films?type=films" class="nav-link px-2 link-body-emphasis">Фильмы</a>
                 </li>
-                <li><a href="${pageContext.request.contextPath}/films?type=serials"
+                <li><a href="${pageContext.request.contextPath}/films?type=mult"
                        class="nav-link px-2 link-body-emphasis">Сериалы</a></li>
-                <li><a href="${pageContext.request.contextPath}/contacts" class="nav-link px-2 link-body-emphasis">Контакты</a>
-                </li>
+                <!--<li><a href="${pageContext.request.contextPath}/contacts" class="nav-link px-2 link-body-emphasis">Контакты</a>
+                </li>!-->
             </ul>
 
             <% if (userAdapter.isAuthorized((User) request.getSession().getAttribute("User"))) {%>
@@ -158,10 +158,8 @@
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/my">Профиль</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/films?type=onLearn">На
-                        изучении ${sessionScope.User.tasksOnWay}</a></li>
                     <li><a class="dropdown-item"
-                           href="${pageContext.request.contextPath}/films?type=comleted">Изучено ${sessionScope.User.tasksCompleted}</a>
+                           href="${pageContext.request.contextPath}/films?type=completed">Изучено <%=userAdapter.getWatched((User) request.getSession().getAttribute("User")).size()%></a>
                     </li>
 
                     <li>

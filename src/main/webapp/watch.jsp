@@ -144,8 +144,8 @@
     var currentTask = tasks.length > 0 ? 0 : -1;
     var currentTime;
     tasks.push({"posStart": 99999999999})
-
-
+    <% if (userAdapter.isAuthorized((User) request.getSession().getAttribute("User")))
+        userAdapter.addCompleted((User) request.getSession().getAttribute("User"), request.getParameter("id"));%>
     const appendAlert = (message, type) => {
         const wrapper = document.createElement('div')
         wrapper.innerHTML = [

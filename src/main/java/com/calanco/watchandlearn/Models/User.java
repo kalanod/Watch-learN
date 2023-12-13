@@ -1,6 +1,7 @@
 package com.calanco.watchandlearn.Models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
     int id;
@@ -9,12 +10,18 @@ public class User implements Serializable {
     String password;
     String color;
     String imgSrc;
-    int tasksCompleted;
+    ArrayList<Integer> tasksCompleted;
     int tasksOnWay;
     public User() {
     }
 
     public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+    public User(Integer id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -48,7 +55,7 @@ public class User implements Serializable {
         return imgSrc;
     }
 
-    public int getTasksCompleted() {
+    public ArrayList<Integer> getTasksCompleted() {
         return tasksCompleted;
     }
 

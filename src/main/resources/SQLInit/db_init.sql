@@ -13,6 +13,7 @@ CREATE TABLE `users`
     `name`         varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     `email`        varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     `password`     varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    `completed`     varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`)
 );
 

@@ -213,10 +213,10 @@ public class FilmAdapter {
         /**
          * types: [films, serials]
          */
+        ArrayList<Film> all = FilmAdapter.getFilms();
         ArrayList<Film> list = new ArrayList<>();
-        for (int i = fromElem; i < fromElem + countElems && i < FilmAdapter.getFilms().size(); i++) {
-            list.add(FilmAdapter.getFilms().get(i));
-            System.out.println(i);
+        for (int i = fromElem; i < fromElem + countElems && i <all.size(); i++) {
+            if (all.get(i).getGenre().equals(type)) list.add(all.get(i));
         }
         return list;
     }
@@ -290,6 +290,7 @@ public class FilmAdapter {
         }
     }
 
+
     public void addTask(Task task) {
         try {
             String command = " INSERT INTO tasks (title, answers, correct, film_id, start_pos)"
@@ -306,5 +307,14 @@ public class FilmAdapter {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public ArrayList<Film> getFilmsById(ArrayList<String> data) {
+        ArrayList<Film> res = new ArrayList<>();
+        for (String f : data) {
+            if (f.length() < 3) continue;
+            res.add(getFilmById(f));
+        }
+        return res;
     }
 }

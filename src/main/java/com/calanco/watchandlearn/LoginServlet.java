@@ -23,8 +23,8 @@ public class LoginServlet extends HttpServlet {
         System.out.println(req.getParameter("email"));
         UserAdapter adapter = new UserAdapter();
         int res = adapter.isCorrectData(user);
-        resp.getWriter().print(res);
         if (res == 1) req.getSession().setAttribute("User", adapter.fillUser(user));
+        resp.getWriter().print(res);
     }
 
     @Override

@@ -8,10 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/about")
+@WebServlet("/contacts")
 public class ContactsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/about").forward(req, resp);
+        resp.setContentType("text/html");
+        req.getRequestDispatcher("about.jsp").forward(req, resp);
     }
 }

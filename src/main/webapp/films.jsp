@@ -34,7 +34,7 @@
         case "films":
             typ = "Фильмы";
             break;
-        case "serials":
+        case "mult":
             typ = "Сериалы";
             break;
         case "comleted":
@@ -55,12 +55,15 @@
     } else {
         pageN = Integer.parseInt(request.getParameter("page"));
     }
-
-    ArrayList<Film> films = filmAdapter.getFilms(
-            (String) request.getAttribute("type"),
-            pageN * itemsOnPage,
-            itemsOnPage);
-
+    ArrayList<Film> films=null;
+    if (request.getParameter("type").equals("completed")){
+        films = filmAdapter.getFilmsById(userAdapter.getWatched((User) request.getSession().getAttribute("User")));
+    }else {
+        films = filmAdapter.getFilms(
+                request.getParameter("type"),
+                pageN * itemsOnPage,
+                itemsOnPage);
+    }
     for (int i = 0;
          i < films.size();
          i++) {
