@@ -43,9 +43,9 @@ CREATE TABLE `tasks`
 );
 
 insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl)
-values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 1, 'ohaio', 0, 'a.mp4');
+values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 1, 'ohaio', 0, 'a_film_1_1_aaaaa.mp4');
 insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl)
-values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 2, 'nigga', 0, 'a.mp4');
+values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 2, 'nigga', 0, 'a_film_1_1_aaaaa.mp4');
 insert into films (title, icnSrc, genre, season, episode, episodeTitle, isWatched, filmUrl)
 values ('BokuNoPico', 'https://cdn.myanimelist.net/images/anime/12/39497.jpg', 'what', 1, 3, 'End of Evangelion', 0,
         'penta.webm');

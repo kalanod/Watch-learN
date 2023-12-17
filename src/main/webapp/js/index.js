@@ -1,7 +1,7 @@
 $("#signUpFormBtn").click(function () {
     var saveData = $.ajax({
         type: 'POST',
-        url: "/Gradle___com_calanco___WatchAndLearn_1_0_SNAPSHOT_war" + "/registration",
+        url: "/ToDoList-1.0-SNAPSHOT" + "/registration",
         data: {"name": $("#signUpName").val(), "email": $("#signUpEmail").val(), "password": $("#signUpPassword").val()},
         dataType: "text",
         success: function (resultData) {
@@ -22,7 +22,7 @@ $("#signUpFormBtn").click(function () {
 $("#signInFormBtn").click(function () {
     var saveData = $.ajax({
         type: 'POST',
-        url: "/Gradle___com_calanco___WatchAndLearn_1_0_SNAPSHOT_war" + "/login",
+        url: "/ToDoList-1.0-SNAPSHOT" + "/login",
         data: {"email": $("#signInEmail").val(), "password": $("#signInPassword").val()},
         dataType: "text",
         success: function (resultData) {
