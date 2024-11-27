@@ -12,8 +12,9 @@ import java.util.Arrays;
 
 public class FillDBByFilms {
     public static void main(String[] args) throws IOException {
-        String film;
         String task;
+        String film;
+
         File folder = new File("src/main/webapp/videos");
         System.out.println(System.getProperty("user.dir"));
         File[] listOfFiles = folder.listFiles();
